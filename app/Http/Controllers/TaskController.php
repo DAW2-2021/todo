@@ -90,7 +90,7 @@ class TaskController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('task.create')->withErrors($validator);
+            return redirect()->route('task.edit')->withErrors($validator);
         }
         $task->update($request->all());
     }
