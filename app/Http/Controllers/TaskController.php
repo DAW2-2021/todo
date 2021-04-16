@@ -83,6 +83,15 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
+            'description' => ['nullable', 'string', 'min:3', 'max:255'],
+            'fecha_due' => ['nullable', 'date']
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('task.create')->withErrors($validator);
+        }
         $task->update($request->all());
     }
 
