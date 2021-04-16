@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
@@ -13,7 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        return view('home');
     }
 
     /**
@@ -34,7 +37,19 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'title', 'string', 'min:3', 'max:255'],
+            'description' => ['required', 'string', 'min:3', 'max:255'],
+            'fecha_due' => ['required', 'date']
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('task.create')->withErrors($validator);
+        }
+
+        $task = Auth::user()->tasks()->create($request->all());
+
+        return redirect()->route('task.show', $task->id);
     }
 
     /**
@@ -66,9 +81,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        //
+        $task->update($request->all());
     }
 
     /**
