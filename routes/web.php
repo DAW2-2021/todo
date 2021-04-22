@@ -18,7 +18,7 @@ use App\Http\Controllers\TaskController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/', [TaskController::class, 'index'])->name('index');
 
 Route::resource('user', UserController::class);
 Route::resource('task', TaskController::class);
