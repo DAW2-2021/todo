@@ -1,6 +1,5 @@
+@extends("layouts.app")
 @section('content')
-    @foreach($users as $user)
-        @if(Auth::User()->name == $user->name)
             <div class="container">
                 <div class="row gutters">
                     <div class="col-xl col-lg-3 col-md-12 col-sm-12 col-12">
@@ -8,17 +7,15 @@
                             <div class="card-body">
                                 <div class="account-settings">
                                     <div class="user-profile">
-                                        <div class="user-avatar">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
-                                        </div>
-                                        <h5 class="user-name">{{$user->name}}</h5>
-                                        <h6 class="user-email">{{$user->email}}</h6>
-                                        <small class="text-muted">Created At: {{$user->created_at}}</small>
-                                        <small class="text-muted">Updated At: {{$user->updated_at}}</small>
+                                        <h2>My profile</h2>
+                                        <h5 class="user-name">Name: {{Auth::User()->name}}</h5>
+                                        <h6 class="user-email">Email: {{Auth::User()->email}}</h6>
+                                        <small class="text-muted">Created At: {{Auth::User()->created_at}}</small>
+                                        @if(Auth::User()->created_at != Auth::User()->updated_at)
+                                            <small class="text-muted">Updated At: {{$user->updated_at}}</small>
+                                        @endif
                                     </div>
                                 <div class="about">
-                                    <h5>About</h5>
-                                    <p>I'm {{$user->name}}. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
                                     <div class="row gutters">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div class="text-right">
@@ -42,16 +39,24 @@
                             </button>
                         </div>
                     <div class="modal-body">
-                        <form action="{{route('profile.update',$user->id)}}" method="POST">
+                        <form action="{{-- {{route('profile.update',$user->id)}}--}}" method="POST">
                             @csrf
                             @method("PUT")
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Name:</label>
-                                <input type="text" name="name" value="{{$user->name}}" class="form-control" id="recipient-name">
+                                <input type="text" name="name" value="{{Auth::User()->name}}" class="form-control" id="recipient-name">
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-form-label">Email:</label>
-                                <input type="email" name="email" value="{{$user->email}}" class="form-control" id="email">
+                                <input type="email" name="email" value="{{Auth::User()->email}}" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-form-label">New password:</label>
+                                <input type="password" name="password" value="" class="form-control" id="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="password-confirm" class="col-form-label">Confirm new password:</label>
+                                <input type="password" name="password-confirm" value="" class="form-control" id="password-confirm">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -62,7 +67,5 @@
                     </div>
                 </div>
             </div>
-        @endif
-    @endforeach
 @endsection
 
