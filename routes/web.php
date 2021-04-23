@@ -17,8 +17,9 @@ use App\Http\Controllers\TaskController;
 */
 
 Auth::routes();
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', [TaskController::class, 'index'])->name('index');
 
-Route::get('/', [TaskController::class, 'index'])->name('index');
-
-Route::resource('user', UserController::class);
-Route::resource('task', TaskController::class);
+    Route::resource('user', UserController::class);
+    Route::resource('task', TaskController::class);
+});
