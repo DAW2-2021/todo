@@ -52,7 +52,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('tasks.index', compact('task'));
+        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -71,9 +71,10 @@ class TaskController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('task.edit')->withErrors($validator);
+            return redirect()->route('task.show', $task->id)->withErrors($validator);
         }
         $task->update($request->all());
+        return redirect()->route("task.index", ['success' => "true"]);
     }
 
     /**
