@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Task;
+use Facade\Ignition\Tabs\Tab;
 
 class TaskController extends Controller
 {
@@ -16,19 +17,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('tasks.index');
+        $tasks = Task::all();
+        return view('tasks.index', compact('tasks')); //si quereis lo cambiamos a lo que haces tu David pero a mi me funciona así
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -38,16 +29,18 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'title', 'string', 'min:3', 'max:255'],
+            'title' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['required', 'string', 'min:3', 'max:255'],
-            'fecha_due' => ['required', 'date']
+            'finished' => ['required'],
+            'fecha_due' => ['required', 'string']
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('task.create')->withErrors($validator);
+            dd($validator);
+            return redirect()->route('task.index')->withErrors($validator);
         }
 
-        $task = Auth::user()->tasks()->create($request->all());
+        $task = Auth::user()->Task()->create($request->all());
 
         return redirect()->route('task.show', $task->id);
     }
@@ -60,7 +53,8 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        $task = Task::find($id);
+        return view('tasks.index', compact('task'));
     }
 
     /**
@@ -103,6 +97,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+        $task->destroy();
+        $tasks = Task::all();
+        return view('tasks.index', compact('tasks'));
     }
 }
