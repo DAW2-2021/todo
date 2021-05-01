@@ -128,14 +128,14 @@
                 <div class="card card-white">
                     <div class="card-body">
                         <div>
-                            <h1>Show task view</h1>
+                            <h1>Task view</h1>
                         </div>
-                        <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Edit task</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Edit Task</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -195,8 +195,40 @@
                                 </ul>
                             </div><br>
                         @endif
-                        <button style="width: 1020px" class=" btn btn-primary" data-toggle="modal"
-                            data-target="#exampleModal" data-whatever="@mdo">Edit</button>
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                            aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModal">Delete Task</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('task.destroy', $task->id) }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+                                            <small class="text-muted">Question</small>
+                                            <p>Are you sure you want to delete the task?</p>
+                                            <small class="text-muted">Yes</small>
+                                            <p>If you are press Delete Task button.</p>
+                                            <small class="text-muted">No</small>
+                                            <p>If you aren't, press X or Close button.</p>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-danger">Delete Task</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button style="width: 1020px" class=" btn btn-primary" data-toggle="modal" data-target="#editModal"
+                            data-whatever="@mdo">Edit Task</button><br><br>
+                        <button style="width: 1020px" class=" btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                            data-whatever="@mdo">Delete Task</button>
                     </div>
                 </div>
             </div>
