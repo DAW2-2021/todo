@@ -24,9 +24,9 @@
                                             @method('PUT')
                                             <div class="add-items d-flex"> <input type="text" name="title"
                                                     class="form-control todo-list-input" value="{{ $task->title }}">
-                                                <input style="width: 200px" name="fecha_due" type='datetime-local'
+                                                <input style="width: 200px" name="date_due" type='datetime-local'
                                                     class="form-control"
-                                                    value="{{ date('Y-m-d\TH:i', strtotime($task->fecha_due)) }}"
+                                                    value="{{ date('Y-m-d\TH:i', strtotime($task->date_due)) }}"
                                                     min="{{ date('Y-m-d\TH:i', strtotime(now())) }}"
                                                     placeholder="{{ date('Y-m-d\TH:i', strtotime(now())) }}" />
                                             </div>
@@ -50,11 +50,11 @@
                         <small class="text-muted">Description</small>
                         <p>{{ $task->description }}</p>
                         <small class="text-muted">Date_due</small>
-                        <p>{{ $task->fecha_due }}</p>
+                        <p>{{ $task->date_due }}</p>
                         <small class="text-muted">Status</small>
                         <p>
                             @if ($task->finished) Completed
-                            @elseif ($currentTime->lt($task->fecha_due)) Not completed
+                            @elseif ($currentTime->lt($task->date_due)) Not completed
                             @else Out of date @endif
                         </p>
                         @if ($task->finished)

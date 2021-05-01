@@ -33,7 +33,7 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['required', 'string', 'min:3', 'max:255'],
-            'fecha_due' => ['required', 'date']
+            'date_due' => ['required', 'date']
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +69,7 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string', 'min:3', 'max:255'],
-            'fecha_due' => ['nullable', 'date'],
+            'date_due' => ['nullable', 'date'],
             'finished' => ['nullable', 'numeric', 'min:0', 'max:1']
         ]);
 
