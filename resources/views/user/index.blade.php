@@ -7,7 +7,7 @@
                     <div class="card-body">
                         <div class="account-settings">
                             <div class="user-profile">
-                                <h2>My profile</h2>
+                                <h1>My profile</h1>
                                 <h5 class="user-name">Name: {{ Auth::User()->name }}</h5>
                                 <h6 class="user-email">Email: {{ Auth::User()->email }}</h6>
                                 <small class="text-muted">Created At: {{ Auth::User()->created_at }}</small>
@@ -55,7 +55,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="updateModal">New profile</h5>
+                        <h5 class="modal-title" id="updateModal">Update Profile</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Change Profile</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
                     </div>
@@ -97,7 +97,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModal">New profile</h5>
+                        <h5 class="modal-title" id="deleteModal">Delete Account</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -111,7 +111,7 @@
                             <small class="text-muted">Yes</small>
                             <p>If you are press Delete Account button.</p>
                             <small class="text-muted">No</small>
-                            <p>If you aren't, press X or Cancel button.</p>
+                            <p>If you aren't, press X or Close button.</p>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-danger">Delete Account</button>
