@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Task;
 use Facade\Ignition\Tabs\Tab;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -17,8 +18,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
-        return view('tasks.index', compact('tasks'));
+        $tasks = Auth::user()->Task()->orderByDesc('created_at')->get();
+        $currentTime = Carbon::now()->addHours(2);
+        return view('tasks.index', compact('tasks', 'currentTime'));
     }
     /**
      * Store a newly created resource in storage.
@@ -32,7 +34,7 @@ class TaskController extends Controller
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['required', 'string', 'min:3', 'max:255'],
             'finished' => ['required'],
-            'fecha_due' => ['required', 'string']
+            'fecha_due' => ['required', 'date']
         ]);
 
         if ($validator->fails()) {
@@ -52,7 +54,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('tasks.show', compact('task'));
+        $currentTime = Carbon::now()->addHours(2);
+        return view('tasks.show', compact('task', 'currentTime'));
     }
 
     /**
@@ -67,7 +70,7 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string', 'min:3', 'max:255'],
-            'fecha_due' => ['nullable', 'string']
+            'fecha_due' => ['nullable', 'date']
         ]);
 
         if ($validator->fails()) {

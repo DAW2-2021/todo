@@ -147,7 +147,9 @@
                                             <div class="add-items d-flex"> <input type="text" name="title"
                                                     class="form-control todo-list-input" value="{{ $task->title }}">
                                                 <input style="width: 200px" name="fecha_due" type='datetime-local'
-                                                    class="form-control" value="{{ $task->fecha_due }}" />
+                                                    class="form-control"
+                                                    value="{{ date('Y-m-d\TH:i', strtotime($task->fecha_due)) }}"
+                                                    min="{{ date('Y-m-d\TH:i', strtotime(now())) }}" />
                                             </div>
                                             <br>
                                             <textarea class="form-control" name="description" cols="140"
@@ -172,11 +174,9 @@
                         <p>{{ $task->fecha_due }}</p>
                         <small class="text-muted">Status</small>
                         <p>
-                            @if ($task->finished == 0)
-                                Not completed
-                            @else
-                                Completed
-                            @endif
+                            @if ($task->finished) Completed
+                            @elseif ($currentTime->lt($task->fecha_due)) Not completed
+                            @else Out of date @endif
                         </p>
                         @if (request()->get('success'))
                             <br>
