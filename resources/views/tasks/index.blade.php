@@ -30,7 +30,7 @@
                                             @method('POST')
                                             <div class="add-items d-flex"> <input type="text" name="title"
                                                     class="form-control todo-list-input" placeholder="Title">
-                                                <input style="width: 200px" name="fecha_due" type='datetime-local'
+                                                <input style="width: 200px" name="date_due" type='datetime-local'
                                                     class="form-control" min="{{ date('Y-m-d\TH:i', strtotime(now())) }}"
                                                     placeholder="{{ date('Y-m-d\TH:i', strtotime(now())) }}" />
                                             </div>
@@ -60,19 +60,19 @@
                         <div class="todo-list">
                             @foreach ($tasks as $task)
                                 <div class="todo-item task-all @if ($task->finished) completed
-                                @elseif ($currentTime->lt($task->fecha_due)) not-completed
+                                @elseif ($currentTime->lt($task->date_due)) not-completed
                                 @else out-of-date @endif ">
                                     <span><a href="{{ route('task.show', $task->id) }}">{{ $task->title }}</a> - <span
                                             class=" text-muted">
                                             @if ($task->finished) Completed
-                                            @elseif ($currentTime->lt($task->fecha_due)) Not completed
+                                            @elseif ($currentTime->lt($task->date_due)) Not completed
                                             @else Out of date @endif
                                         </span>
                                         <span class="text-info float-right">
                                             @if ($task->finished)
                                                 Date completed: {{ $task->updated_at }}
                                             @else
-                                                Date Due: {{ $task->fecha_due }}
+                                                Date Due: {{ $task->date_due }}
                                             @endif
                                         </span>
                                     </span>
