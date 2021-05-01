@@ -155,8 +155,8 @@
                                             <div class="add-items d-flex"> <input type="text" name="title"
                                                     class="form-control todo-list-input" placeholder="Title">
                                                 <input style="width: 200px" name="fecha_due" type='datetime-local'
-                                                    class="form-control"
-                                                    min="{{ date('Y-m-d\TH:i', strtotime(now())) }}" />
+                                                    class="form-control" min="{{ date('Y-m-d\TH:i', strtotime(now())) }}"
+                                                    placeholder="{{ date('Y-m-d\TH:i', strtotime(now())) }}" />
                                             </div>
                                             <br>
                                             <textarea class="form-control" placeholder="Description" name="description"

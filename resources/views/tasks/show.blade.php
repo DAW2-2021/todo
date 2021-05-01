@@ -149,7 +149,8 @@
                                                 <input style="width: 200px" name="fecha_due" type='datetime-local'
                                                     class="form-control"
                                                     value="{{ date('Y-m-d\TH:i', strtotime($task->fecha_due)) }}"
-                                                    min="{{ date('Y-m-d\TH:i', strtotime(now())) }}" />
+                                                    min="{{ date('Y-m-d\TH:i', strtotime(now())) }}"
+                                                    placeholder="{{ date('Y-m-d\TH:i', strtotime(now())) }}" />
                                             </div>
                                             <br>
                                             <textarea class="form-control" name="description" cols="140"
