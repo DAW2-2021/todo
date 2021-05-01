@@ -170,7 +170,7 @@
                         <p>{{ $task->description }}</p>
                         <small class="text-muted">Date_due</small>
                         <p>{{ $task->fecha_due }}</p>
-                        <small class="text-muted">Finished</small>
+                        <small class="text-muted">Status</small>
                         <p>
                             @if ($task->finished == 0)
                                 Not completed
