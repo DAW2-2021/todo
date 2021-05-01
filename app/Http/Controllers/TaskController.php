@@ -33,7 +33,6 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['required', 'string', 'min:3', 'max:255'],
-            'finished' => ['required'],
             'fecha_due' => ['required', 'date']
         ]);
 
@@ -70,14 +69,15 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string', 'min:3', 'max:255'],
-            'fecha_due' => ['nullable', 'date']
+            'fecha_due' => ['nullable', 'date'],
+            'finished' => ['nullable', 'numeric', 'min:0', 'max:1']
         ]);
 
         if ($validator->fails()) {
             return redirect()->route('task.show', $task->id)->withErrors($validator);
         }
         $task->update($request->all());
-        return redirect()->route("task.index", ['success' => "true"]);
+        return redirect()->route('task.show', $task->id);
     }
 
     /**
