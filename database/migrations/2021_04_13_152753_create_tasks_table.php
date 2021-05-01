@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('title', 100);
             $table->string('description', 255);
             $table->datetime('fecha_due');
-            $table->boolean('finished')->default(false);
+            $table->boolean('finished')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
