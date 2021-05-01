@@ -178,6 +178,12 @@
                             @elseif ($currentTime->lt($task->fecha_due)) Not completed
                             @else Out of date @endif
                         </p>
+                        @if ($task->finished)
+                            <small class="text-muted">Completed At</small>
+                            <p>
+                                {{ $task->updated_at }}
+                            </p>
+                        @endif
                         @if (request()->get('success'))
                             <br>
                             <div style="margin:auto; text-align:center;"
@@ -225,8 +231,22 @@
                                 </div>
                             </div>
                         </div>
-                        <button style="width: 1020px" class=" btn btn-primary" data-toggle="modal" data-target="#editModal"
-                            data-whatever="@mdo">Edit Task</button><br><br>
+                        @if (!$task->finished)
+                            <button style="width: 1020px" class=" btn btn-primary" data-toggle="modal"
+                                data-target="#editModal" data-whatever="@mdo">Edit Task</button><br><br>
+                        @endif
+                        <form action="{{ route('task.update', $task->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            @if ($task->finished)
+                                <input type="hidden" name="finished" value="0">
+                                <input type="submit" style="width: 1020px" class="btn btn-warning" value="Un Completed">
+                            @else
+                                <input type="hidden" name="finished" value="1">
+                                <input type="submit" style="width: 1020px" class="btn btn-success" value="Completed">
+                            @endif
+                        </form>
+                        <br>
                         <button style="width: 1020px" class=" btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                             data-whatever="@mdo">Delete Task</button>
                     </div>
