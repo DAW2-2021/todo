@@ -18,7 +18,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
-        return view('tasks.index', compact('tasks')); //si quereis lo cambiamos a lo que haces tu David pero a mi me funciona así
+        return view('tasks.index', compact('tasks'));
     }
     /**
      * Store a newly created resource in storage.
@@ -36,7 +36,6 @@ class TaskController extends Controller
         ]);
 
         if ($validator->fails()) {
-            dd($validator);
             return redirect()->route('task.index')->withErrors($validator);
         }
 
@@ -51,21 +50,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Task $task)
     {
-        $task = Task::find($id);
         return view('tasks.index', compact('task'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -80,7 +67,7 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string', 'min:3', 'max:255'],
-            'fecha_due' => ['nullable', 'date']
+            'fecha_due' => ['nullable', 'string']
         ]);
 
         if ($validator->fails()) {
@@ -95,11 +82,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        $task = Task::find($id);
         $task->destroy();
-        $tasks = Task::all();
-        return view('tasks.index', compact('tasks'));
+        return redirect()->route('task.index');
     }
 }
