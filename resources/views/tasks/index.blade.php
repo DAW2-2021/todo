@@ -128,38 +128,46 @@
         <div class="col-md-12">
             <div class="card card-white">
                 <div class="card-body">
-                    <form action="javascript:void(0);">
-                        <div class="add-items d-flex"> <input type="text" class="form-control todo-list-input" placeholder="New Task">
-                            <input style="width: 200px" type='datetime-local' class="form-control" />
-                            <button class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
-                    </form>
+                    <button style="width: 1020px" class=" btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add</button>
+                    <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">New task</h5>
+                                    <div class="modal-body">
+                                        <form action="{{route('task.store')}}" enctype="multipart/form-data" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                            <div class="add-items d-flex"> <input type="text" name="title" class="form-control todo-list-input" placeholder="New Task">
+                                                <input style="width: 200px" name="fecha_due" type='datetime-local' class="form-control" />
+                                                <input style="width: 200px" name="finished" type='hidden' class="form-control" value=0 />
+                                                 </div>
+                                                <br>
+                                                <textarea class="form-control" placeholder="Description" name="description" cols="140" rows="5"></textarea>
+                                                <br>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button class="add btn btn-primary">Add</button>
+                                                </div>
+                                        </form>
+                                    </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     <ul class="nav nav-pills todo-nav">
                         <li role="presentation" class="nav-item all-task active"><a href="#" class="nav-link">Completed</a></li>
                         <li role="presentation" class="nav-item active-task"><a href="#" class="nav-link">Not completed</a></li>
                         <li role="presentation" class="nav-item completed-task"><a href="#" class="nav-link">Out of date</a></li>
                     </ul>
                     <div class="todo-list">
+                        @foreach ($tasks as $task)
                         <div class="todo-item">
                             <div class="checker"><span class=""><input type="checkbox"></span></div>
-                            <span>Create theme</span>
+                            <span><a href="{{ route('task.show', $task->id) }}">{{ $task->title }}</a></span>
                             <a href="javascript:void(0);" class="float-right remove-todo-item"><i class="icon-close"></i></a>
                         </div>
-                        <div class="todo-item">
-                            <div class="checker"><span class=""><input type="checkbox"></span></div>
-                            <span>Work on wordpress</span>
-                            <a href="javascript:void(0);" class="float-right remove-todo-item"><i class="icon-close"></i></a>
-                        </div>
-                        
-                        <div class="todo-item">
-                            <div class="checker"><span class=""><input type="checkbox"></span></div>
-                            <span>Organize office main department</span>
-                            <a href="javascript:void(0);" class="float-right remove-todo-item"><i class="icon-close"></i></a>
-                        </div>
-                        <div class="todo-item">
-                            <div class="checker"><span><input type="checkbox"></span></div>
-                            <span>Error solve in HTML template</span>
-                            <a href="javascript:void(0);" class="float-right remove-todo-item"><i class="icon-close"></i></a>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
