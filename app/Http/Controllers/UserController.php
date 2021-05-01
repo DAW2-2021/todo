@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -51,8 +52,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    /*public function destroy($id)
     {
-        //
+        if ($id != Auth::user()->id) {
+            return Redirect()->route('index');
+        }
+        if (User::find($id)) {
+            $user = User::find($id);
+            $user->delete();
+        }
+        return Redirect()->route('index');
+    }*/
+    public function destroy(User $user)
+    {
+        if ($user->id == Auth::user()->id) {
+            $user->delete();
+            return redirect()->route('user.index');
+        }
+        return redirect()->route('user.index');
     }
 }

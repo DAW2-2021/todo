@@ -20,7 +20,9 @@
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="text-right">
                                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#exampleModal" data-whatever="@mdo">Update Profile</button>
+                                                data-target="#updateModal" data-whatever="@mdo">Update Profile</button>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteModal" data-whatever="@mdo">Delete Account</button>
                                         </div>
                                         @if (request()->get('success'))
                                             <br>
@@ -48,12 +50,12 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New profile</h5>
+                        <h5 class="modal-title" id="updateModal">New profile</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -84,6 +86,35 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Change Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModal">New profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('user.destroy', Auth::User()->id) }}" method="POST">
+                            @csrf
+                            @method("DELETE")
+                            <small class="text-muted">Question</small>
+                            <p>Are you sure you want to delete the account?</p>
+                            <small class="text-muted">Yes</small>
+                            <p>If you are press Delete Account button.</p>
+                            <small class="text-muted">No</small>
+                            <p>If you aren't, press X or Cancel button.</p>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Delete Account</button>
                             </div>
                         </form>
                     </div>
