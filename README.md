@@ -19,7 +19,9 @@ un filtro de estas tres marcas de tarea para tener un mejor manejo de las tareas
 
 Lista de tecnologías usadas para este proyecto
 
--[Laravel]
+-[Laravel 8](https://laravel.com/)
+
+-[Bootstrap 4.3](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
 
 ## Instalación
 
@@ -27,6 +29,8 @@ Lista de tecnologías usadas para este proyecto
 
 No se necesita instalación, ve al link de abajo
 
-```(heroku app link)
+[Heroku LINK](http://todo-fad.herokuapp.com/login)
+
+```
 
 ```
