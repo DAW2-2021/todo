@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Task;
+use Facade\Ignition\Tabs\Tab;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -16,19 +18,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $tasks = Auth::user()->Task()->orderByDesc('created_at')->get();
+        $currentTime = Carbon::now()->addHours(2);
+        return view('tasks.index', compact('tasks', 'currentTime'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -38,16 +31,16 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'title', 'string', 'min:3', 'max:255'],
+            'title' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['required', 'string', 'min:3', 'max:255'],
-            'fecha_due' => ['required', 'date']
+            'date_due' => ['required', 'date']
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('task.create')->withErrors($validator);
+            return redirect()->route('task.index')->withErrors($validator);
         }
 
-        $task = Auth::user()->tasks()->create($request->all());
+        $task = Auth::user()->Task()->create($request->all());
 
         return redirect()->route('task.show', $task->id);
     }
@@ -58,20 +51,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Task $task)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if ($task->user_id == Auth::user()->id) {
+            $currentTime = Carbon::now()->addHours(2);
+            return view('tasks.show', compact('task', 'currentTime'));
+        }
+        return redirect()->route('task.index');
     }
 
     /**
@@ -83,7 +69,21 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $task->update($request->all());
+        if ($task->user_id == Auth::user()->id) {
+            $validator = Validator::make($request->all(), [
+                'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
+                'description' => ['nullable', 'string', 'min:3', 'max:255'],
+                'date_due' => ['nullable', 'date'],
+                'finished' => ['nullable', 'numeric', 'min:0', 'max:1']
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->route('task.show', $task->id)->withErrors($validator);
+            }
+            $task->update($request->all());
+            return redirect()->route('task.show', $task->id);
+        }
+        return redirect()->route('task.index');
     }
 
     /**
@@ -92,8 +92,12 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        if ($task->user_id == Auth::user()->id) {
+            $task->delete();
+            return redirect()->route('task.index');
+        }
+        return redirect()->route('task.index');
     }
 }
