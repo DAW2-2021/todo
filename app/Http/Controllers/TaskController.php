@@ -53,8 +53,11 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $currentTime = Carbon::now()->addHours(2);
-        return view('tasks.show', compact('task', 'currentTime'));
+        if ($task->user_id == Auth::user()->id) {
+            $currentTime = Carbon::now()->addHours(2);
+            return view('tasks.show', compact('task', 'currentTime'));
+        }
+        return redirect()->route('task.index');
     }
 
     /**
@@ -66,18 +69,21 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
-            'description' => ['nullable', 'string', 'min:3', 'max:255'],
-            'date_due' => ['nullable', 'date'],
-            'finished' => ['nullable', 'numeric', 'min:0', 'max:1']
-        ]);
+        if ($task->user_id == Auth::user()->id) {
+            $validator = Validator::make($request->all(), [
+                'name' => ['nullable', 'title', 'string', 'min:3', 'max:255'],
+                'description' => ['nullable', 'string', 'min:3', 'max:255'],
+                'date_due' => ['nullable', 'date'],
+                'finished' => ['nullable', 'numeric', 'min:0', 'max:1']
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('task.show', $task->id)->withErrors($validator);
+            if ($validator->fails()) {
+                return redirect()->route('task.show', $task->id)->withErrors($validator);
+            }
+            $task->update($request->all());
+            return redirect()->route('task.show', $task->id);
         }
-        $task->update($request->all());
-        return redirect()->route('task.show', $task->id);
+        return redirect()->route('task.index');
     }
 
     /**
