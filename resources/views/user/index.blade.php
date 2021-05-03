@@ -83,7 +83,7 @@
                                 <input type="password" name="password_confirmation" value="" class="form-control"
                                     id="password-confirm">
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer 2">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
